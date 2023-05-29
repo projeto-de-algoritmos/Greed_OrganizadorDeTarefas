@@ -1,25 +1,67 @@
 <script lang="ts">
-  import JobList from "./components/JobList.svelte";
-  import { minimizeLateness, type Job } from "./lib/minimizingLateness";
+  import JobList from './components/JobList.svelte';
+  import { minimizeLateness, type Job } from './lib/minimizingLateness';
 
+  const daysToMilisecs = 24 * 60 * 60 * 1000;
   const jobs: Job[] = [
-    { id: "6", duration: 2, deadline: 15, start: 0, end: 0 },
-    { id: "1", duration: 3, deadline: 6, start: 0, end: 0 },
-    { id: "2", duration: 2, deadline: 8, start: 0, end: 0 },
-    { id: "3", duration: 1, deadline: 9, start: 0, end: 0 },
-    { id: "4", duration: 4, deadline: 9, start: 0, end: 0 },
-    { id: "5", duration: 3, deadline: 14, start: 0, end: 0 },
+    {
+      // 1
+      id: 'TCC 1',
+      duration: 3 * daysToMilisecs,
+      deadline: new Date('2023-05-06T23:59:59').getTime(),
+      start: 0,
+      end: 0,
+    },
+    {
+      // 2
+      id: 'artigo usabilidade',
+      duration: 2 * daysToMilisecs,
+      deadline: new Date('2023-05-08T23:59:59').getTime(),
+      start: 0,
+      end: 0,
+    },
+    {
+      // 3
+      id: 'Trabalho de Testes',
+      duration: 1 * daysToMilisecs,
+      deadline: new Date('2023-05-09T23:59:59').getTime(),
+      start: 0,
+      end: 0,
+    },
+    {
+      // 4
+      id: 'declaração imposto de renda',
+      duration: 4 * daysToMilisecs,
+      deadline: new Date('2023-05-09T23:59:59').getTime(),
+      start: 0,
+      end: 0,
+    },
+    {
+      // 5
+      id: 'outra coisa',
+      duration: 3 * daysToMilisecs,
+      deadline: new Date('2023-05-14T23:59:59').getTime(),
+      start: 0,
+      end: 0,
+    },
+    {
+      // 6
+      id: 'PA T2',
+      duration: 2 * daysToMilisecs,
+      deadline: new Date('2023-05-15T23:59:59').getTime(),
+      start: 0,
+      end: 0,
+    },
   ];
 
-  minimizeLateness(jobs);
+  // minimizeLateness(jobs);
+  minimizeLateness(jobs, new Date().getTime());
 </script>
 
 <main>
   <h1>Organizador de tarefas</h1>
 
-  <div>
-    <JobList {jobs} />
-  </div>
+  <JobList {jobs} />
 </main>
 
 <style>

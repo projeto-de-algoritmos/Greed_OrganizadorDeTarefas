@@ -6,11 +6,11 @@ export type Job = {
     end: number,
 }
 
-export function minimizeLateness(jobs: Job[]): void {
+export function minimizeLateness(jobs: Job[], globalStartTime = 0): void {
     jobs.sort((a, b) => a.deadline - b.deadline)
 
-    let time = 0
-    for (let i = 1; i < jobs.length; i++) {
+    let time = globalStartTime
+    for (let i = 0; i < jobs.length; i++) {
         jobs[i].start = time
         jobs[i].end = time + jobs[i].duration
         time = time + jobs[i].duration

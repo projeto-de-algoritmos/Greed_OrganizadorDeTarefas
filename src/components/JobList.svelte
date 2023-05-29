@@ -1,14 +1,15 @@
 <script lang="ts">
-    import type { Job } from "../lib/minimizingLateness";
-    import JobItem from "./JobItem.svelte";
-    import { Input, Button, Grid } from "@svelteuidev/core";
-    import { DateInput, localeFromDateFnsLocale } from "date-picker-svelte";
-    import { ptBR } from "date-fns/locale";
+    import { minimizeLateness, type Job } from '../lib/minimizingLateness';
+    import JobItem from './JobItem.svelte';
+    import { Input, Button, Grid } from '@svelteuidev/core';
+    import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
+    import { ptBR } from 'date-fns/locale';
+    import { daysToMilisecs } from '../lib/dateUtils';
 
     export let jobs: Job[] = [];
-    let jobId = "";
+    let jobId = '';
     let deadline = new Date();
-    let duration = 0;
+    let duration = 1;
     let locale = localeFromDateFnsLocale(ptBR);
 
     function handleSubmit() {
@@ -17,7 +18,7 @@
         const job: Job = {
             id: jobId,
             deadline: deadline.getTime(),
-            duration: 1,
+            duration: duration * daysToMilisecs,
             start: 0,
             end: 0,
         };
@@ -26,7 +27,8 @@
         // https://svelte.dev/repl/cd4d1bc127834d11812b1d156a60cdd7?version=3.20.1
         jobs.push(job);
         jobs = jobs;
-        jobId = "";
+        minimizeLateness(jobs, new Date().getTime());
+        jobId = '';
         deadline = new Date();
         console.log(jobs);
     }
@@ -44,7 +46,26 @@
     {/if}
 
     <Grid>
-        <Grid.Col span={4}>
+        <Grid.Col span={2}>
+            <label for="deadline" class="mb-2">Prazo</label>
+            <DateInput
+                class="date-input"
+                bind:value={deadline}
+                format="dd / MM / yyyy"
+                {locale}
+            />
+        </Grid.Col>
+        <Grid.Col span={2}>
+            <label for="duration" class="mb-2">Duração (dias)</label>
+            <Input
+                bind:value={duration}
+                type="number"
+                id="duration"
+                placeholder="3 dias"
+                required
+            />
+        </Grid.Col>
+        <Grid.Col span={6}>
             <label for="new_job" class="mb-2">Nova tarefa</label>
             <Input
                 bind:value={jobId}
@@ -53,24 +74,6 @@
                 placeholder="TCC 1"
                 required
             />
-        </Grid.Col>
-        <Grid.Col span={4}>
-            <span
-                >!Tem que pensar um jeito interessante de definir duração em
-                dias, horas, meses etc!</span
-            >
-            <label for="duration" class="mb-2">Duração</label>
-            <Input
-                bind:value={duration}
-                type="text"
-                id="duration"
-                placeholder="Duas horas"
-                required
-            />
-        </Grid.Col>
-        <Grid.Col span={4}>
-            <label for="deadline" class="mb-2">Prazo</label>
-            <DateInput bind:value={deadline} format="dd / MM / yyyy" {locale} />
         </Grid.Col>
     </Grid>
     <br />
@@ -83,5 +86,10 @@
         background-color: white;
         transition: border-color 100ms ease 0s;
         min-height: 36px;
+    }
+
+    :global(.date-time-field.date-input) {
+        /* background: red; */
+        width: 100%;
     }
 </style>

@@ -1,7 +1,10 @@
 import { format, intervalToDuration } from 'date-fns'
 
+
+export const daysToMilisecs = 24 * 60 * 60 * 1000;
+
 export function formatDate(date: Date): string {
-    return format(date, 'dd / MM / yyyy')
+    return format(date, 'dd/MM/yyyy')
 }
 
 export function intervalFromDates(start: Date, end: Date) {

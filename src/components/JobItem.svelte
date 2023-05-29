@@ -1,33 +1,37 @@
 <script lang="ts">
-    import { DateInput, localeFromDateFnsLocale } from "date-picker-svelte";
-    import { ptBR } from "date-fns/locale";
-    import type { Job } from "../lib/minimizingLateness";
-    import { formatDate, intervalFromDates } from "../lib/dateUtils";
+    import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
+    import { ptBR } from 'date-fns/locale';
+    import type { Job } from '../lib/minimizingLateness';
+    import { formatDate, intervalFromDates } from '../lib/dateUtils';
 
     export let job: Job;
-    let deadline = new Date(job.deadline * 1000);
-    let start = new Date(job.start * 1000);
-    let end = new Date(job.end * 1000);
 
+    let deadline = new Date(job.deadline);
+    let start = new Date(job.start);
+    let end = new Date(job.end);
     let interval = intervalFromDates(start, end);
-
     const locale = localeFromDateFnsLocale(ptBR);
 </script>
 
 <div>
-    <span> Label {job.id} </span> -
-    <span> {formatDate(start)} </span> -
-    <span> {interval} </span>
-
     <DateInput
+        browseWithoutSelecting
         class="inline"
         bind:value={deadline}
         format="dd / MM / yyyy"
         {locale}
     />
+    <span> {formatDate(start)} </span>
+    (<span> {interval} </span>)
+    <span> {job.id} </span>
 </div>
 
 <style>
+    div {
+        /* border: 1px solid red; */
+        padding: 12px;
+    }
+
     :global(div .date-time-field.inline) {
         display: inline;
     }
