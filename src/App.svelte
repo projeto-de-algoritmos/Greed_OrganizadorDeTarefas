@@ -1,5 +1,4 @@
 <script lang="ts">
-  import DatePicker from "./components/DatePicker.svelte";
   import JobList from "./components/JobList.svelte";
   import { minimizeLateness, type Job } from "./lib/minimizingLateness";
 
@@ -13,18 +12,12 @@
   ];
 
   minimizeLateness(jobs);
-
-  let cmpDatePicker;
-
-  function datepicked(e) {
-    console.log(e);
-  }
 </script>
 
 <main>
-  <div>
-    <DatePicker on:datepicked={datepicked} bind:this={cmpDatePicker} />
+  <h1>Organizador de tarefas</h1>
 
+  <div>
     <JobList {jobs} />
   </div>
 </main>
