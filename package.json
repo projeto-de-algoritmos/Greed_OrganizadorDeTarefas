@@ -17,5 +17,13 @@
     "tslib": "^2.5.0",
     "typescript": "^5.0.2",
     "vite": "^4.3.2"
+  },
+  "dependencies": {
+    "@svelteuidev/composables": "^0.12.1",
+    "@svelteuidev/core": "^0.12.1",
+    "@svelteuidev/dates": "^0.12.1",
+    "@svelteuidev/motion": "^0.12.1",
+    "date-picker-svelte": "^2.4.3",
+    "dayjs": "^1.11.7"
   }
 }
