@@ -6,7 +6,6 @@
     import { ptBR } from 'date-fns/locale';
     import { daysToMilisecs } from '../lib/dateUtils';
     import { InfoCircled } from 'radix-icons-svelte';
-    import { slide } from 'svelte/transition';
     import { flip } from 'svelte/animate';
 
     export let globalStartTimestamp: number;
@@ -15,17 +14,23 @@
     let deadline = new Date();
     let durationInDays = 1;
     let locale = localeFromDateFnsLocale(ptBR);
-    let showAlert = false;
 
     function handleAddJob() {
+        console.log('job id', jobId);
+
         if (jobId.length === 0) {
-            showAlert = true;
+            alert('Não use tarefas repetidas');
+            return;
+        }
+
+        const repeatedJob = jobs.find((j) => j.id === jobId);
+        if (repeatedJob) {
+            alert('Não use tarefas repetidas');
             return;
         }
 
         console.log(deadline, durationInDays, durationInDays * daysToMilisecs);
 
-        showAlert = false;
         const job: Job = {
             id: jobId,
             deadline: deadline.getTime(),
@@ -36,15 +41,18 @@
 
         // TODO: animar reordenação
         // https://svelte.dev/repl/cd4d1bc127834d11812b1d156a60cdd7?version=3.20.1
+        jobs.push(job);
         minimizeLateness(jobs, globalStartTimestamp);
-        jobs = [...jobs, job];
+        jobs = jobs;
         deadline = new Date();
         jobId = '';
     }
 
     function handleDeadlineChange(a): void {
+        // console.log('changing deadline', a);
+
         minimizeLateness(jobs, globalStartTimestamp);
-        jobs = [...jobs];
+        jobs = jobs;
     }
 </script>
 
@@ -96,12 +104,6 @@
         </Grid.Col>
     </Grid>
     <br />
-    {#if showAlert}
-        <Alert color="orange" icon={InfoCircled}
-            >Forneça uma descrição para a tarefa</Alert
-        >
-        <br />
-    {/if}
     <Button on:click={handleAddJob} type="submit">Adicionar</Button>
 </div>
 

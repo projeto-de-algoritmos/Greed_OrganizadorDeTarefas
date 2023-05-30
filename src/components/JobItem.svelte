@@ -21,6 +21,7 @@
 </script>
 
 <div in:slide>
+    <span> {formatDate(start)} </span>
     <DateInput
         browseWithoutSelecting
         class="inline"
@@ -29,7 +30,6 @@
         format="dd / MM / yyyy"
         {locale}
     />
-    <span> {formatDate(start)} </span>
     (<span> {interval} </span>)
     <span> {job.id} </span>
 </div>
