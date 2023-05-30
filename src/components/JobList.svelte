@@ -1,11 +1,10 @@
 <script lang="ts">
     import JobItem from './JobItem.svelte';
     import { minimizeLateness, type Job } from '../lib/minimizingLateness';
-    import { Input, Button, Grid, Alert, NumberInput } from '@svelteuidev/core';
+    import { Input, Button, Grid, NumberInput } from '@svelteuidev/core';
     import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
     import { ptBR } from 'date-fns/locale';
     import { daysToMilisecs } from '../lib/dateUtils';
-    import { InfoCircled } from 'radix-icons-svelte';
     import { flip } from 'svelte/animate';
 
     export let globalStartTimestamp: number;
@@ -16,8 +15,6 @@
     let locale = localeFromDateFnsLocale(ptBR);
 
     function handleAddJob() {
-        console.log('job id', jobId);
-
         if (jobId.length === 0) {
             alert('Não use tarefas repetidas');
             return;
@@ -28,8 +25,6 @@
             alert('Não use tarefas repetidas');
             return;
         }
-
-        console.log(deadline, durationInDays, durationInDays * daysToMilisecs);
 
         const job: Job = {
             id: jobId,
@@ -44,13 +39,18 @@
         jobs.push(job);
         minimizeLateness(jobs, globalStartTimestamp);
         jobs = jobs;
+
         deadline = new Date();
         jobId = '';
     }
 
-    function handleDeadlineChange(a): void {
-        // console.log('changing deadline', a);
+    function handleDeleteJob(jobId: string) {
+        const remainingJobs = jobs.filter((j) => j.id !== jobId);
+        minimizeLateness(jobs, globalStartTimestamp);
+        jobs = remainingJobs;
+    }
 
+    function handleDeadlineChange(): void {
         minimizeLateness(jobs, globalStartTimestamp);
         jobs = jobs;
     }
@@ -58,16 +58,42 @@
 
 <div>
     {#if jobs.length > 0}
+        <Grid>
+            <Grid.Col span={1} />
+            <Grid.Col span={1}>
+                <strong>Início</strong>
+            </Grid.Col>
+            <Grid.Col span={1}>
+                <strong>Fim</strong>
+            </Grid.Col>
+            <Grid.Col span={1}>
+                <strong>Prazo</strong>
+            </Grid.Col>
+            <Grid.Col span={1}>
+                <strong>Duração</strong>
+            </Grid.Col>
+            <Grid.Col span={1}>
+                <strong>Atraso</strong>
+            </Grid.Col>
+            <Grid.Col span={6}>
+                <strong>Tarefa</strong>
+            </Grid.Col>
+        </Grid>
         <ul>
             <!-- https://svelte.dev/tutorial/keyed-each-blocks -->
-            {#each jobs as job (job.id)}
+            {#each jobs as job (job)}
                 <li animate:flip={{ duration: (d) => 45 * Math.sqrt(d) }}>
-                    <JobItem onDeadlineChange={handleDeadlineChange} {job} />
+                    <JobItem
+                        onDelete={handleDeleteJob}
+                        onDeadlineChange={handleDeadlineChange}
+                        {job}
+                    />
                 </li>
             {/each}
         </ul>
     {:else}
-        Adicione tarefas na lista clicando em Adicionar
+        <p>Adicione tarefas na lista clicando em Adicionar</p>
+        <br />
     {/if}
 
     <Grid>
@@ -110,10 +136,12 @@
 <style>
     ul {
         position: relative;
+        padding: 0;
     }
 
     ul li {
         list-style: none;
+        display: grid;
     }
 
     :global(.date-time-field input) {
