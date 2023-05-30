@@ -1,44 +1,58 @@
 <script lang="ts">
-    import { minimizeLateness, type Job } from '../lib/minimizingLateness';
     import JobItem from './JobItem.svelte';
-    import { Input, Button, Grid } from '@svelteuidev/core';
+    import { minimizeLateness, type Job } from '../lib/minimizingLateness';
+    import { Input, Button, Grid, Alert, NumberInput } from '@svelteuidev/core';
     import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
     import { ptBR } from 'date-fns/locale';
     import { daysToMilisecs } from '../lib/dateUtils';
+    import { InfoCircled } from 'radix-icons-svelte';
 
+    export let globalStartTimestamp: number;
     export let jobs: Job[] = [];
     let jobId = '';
     let deadline = new Date();
-    let duration = 1;
+    let durationInDays = 1;
     let locale = localeFromDateFnsLocale(ptBR);
+    let showAlert = false;
 
-    function handleSubmit() {
-        console.log({ jobId, deadline });
+    function handleAddJob() {
+        if (jobId.length === 0) {
+            showAlert = true;
+            return;
+        }
 
+        console.log(deadline, durationInDays, durationInDays * daysToMilisecs);
+
+        showAlert = false;
         const job: Job = {
             id: jobId,
             deadline: deadline.getTime(),
-            duration: duration * daysToMilisecs,
+            duration: durationInDays * daysToMilisecs,
             start: 0,
             end: 0,
         };
 
         // TODO: animar reordenação
         // https://svelte.dev/repl/cd4d1bc127834d11812b1d156a60cdd7?version=3.20.1
-        jobs.push(job);
-        jobs = jobs;
-        minimizeLateness(jobs, new Date().getTime());
-        jobId = '';
+        jobs = [...jobs, job];
+        minimizeLateness(jobs, globalStartTimestamp);
         deadline = new Date();
-        console.log(jobs);
+        jobId = '';
+    }
+
+    function handleDeadlineChange(a): void {
+        jobs = [...jobs];
+        minimizeLateness(jobs, globalStartTimestamp);
+        console.log('deadline changed');
     }
 </script>
 
 <div>
     {#if jobs.length > 0}
         <ul>
-            {#each jobs as job}
-                <JobItem {job} />
+            <!-- https://svelte.dev/tutorial/keyed-each-blocks -->
+            {#each jobs as job (job.id)}
+                <JobItem onDeadlineChange={handleDeadlineChange} {job} />
             {/each}
         </ul>
     {:else}
@@ -57,11 +71,13 @@
         </Grid.Col>
         <Grid.Col span={2}>
             <label for="duration" class="mb-2">Duração (dias)</label>
-            <Input
-                bind:value={duration}
-                type="number"
+            <NumberInput
+                bind:value={durationInDays}
                 id="duration"
                 placeholder="3 dias"
+                min={1}
+                max={100}
+                step={1}
                 required
             />
         </Grid.Col>
@@ -77,7 +93,13 @@
         </Grid.Col>
     </Grid>
     <br />
-    <Button on:click={handleSubmit} type="submit">Adicionar</Button>
+    {#if showAlert}
+        <Alert color="orange" icon={InfoCircled}
+            >Forneça uma descrição para a tarefa</Alert
+        >
+        <br />
+    {/if}
+    <Button on:click={handleAddJob} type="submit">Adicionar</Button>
 </div>
 
 <style>

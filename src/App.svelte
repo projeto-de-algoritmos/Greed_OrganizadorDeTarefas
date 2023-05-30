@@ -1,9 +1,10 @@
 <script lang="ts">
   import JobList from './components/JobList.svelte';
+  import { daysToMilisecs } from './lib/dateUtils';
   import { minimizeLateness, type Job } from './lib/minimizingLateness';
 
-  const daysToMilisecs = 24 * 60 * 60 * 1000;
-  const jobs: Job[] = [
+  const globalStartTimestamp = new Date().getTime();
+  let jobs: Job[] = [
     {
       // 1
       id: 'TCC 1',
@@ -54,14 +55,13 @@
     },
   ];
 
-  // minimizeLateness(jobs);
-  minimizeLateness(jobs, new Date().getTime());
+  minimizeLateness(jobs, globalStartTimestamp);
 </script>
 
 <main>
   <h1>Organizador de tarefas</h1>
 
-  <JobList {jobs} />
+  <JobList {jobs} {globalStartTimestamp} />
 </main>
 
 <style>
