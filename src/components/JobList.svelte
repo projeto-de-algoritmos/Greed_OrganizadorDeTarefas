@@ -6,6 +6,8 @@
     import { ptBR } from 'date-fns/locale';
     import { daysToMilisecs } from '../lib/dateUtils';
     import { InfoCircled } from 'radix-icons-svelte';
+    import { slide } from 'svelte/transition';
+    import { flip } from 'svelte/animate';
 
     export let globalStartTimestamp: number;
     export let jobs: Job[] = [];
@@ -34,16 +36,15 @@
 
         // TODO: animar reordenação
         // https://svelte.dev/repl/cd4d1bc127834d11812b1d156a60cdd7?version=3.20.1
-        jobs = [...jobs, job];
         minimizeLateness(jobs, globalStartTimestamp);
+        jobs = [...jobs, job];
         deadline = new Date();
         jobId = '';
     }
 
     function handleDeadlineChange(a): void {
-        jobs = [...jobs];
         minimizeLateness(jobs, globalStartTimestamp);
-        console.log('deadline changed');
+        jobs = [...jobs];
     }
 </script>
 
@@ -52,7 +53,9 @@
         <ul>
             <!-- https://svelte.dev/tutorial/keyed-each-blocks -->
             {#each jobs as job (job.id)}
-                <JobItem onDeadlineChange={handleDeadlineChange} {job} />
+                <li animate:flip={{ duration: (d) => 45 * Math.sqrt(d) }}>
+                    <JobItem onDeadlineChange={handleDeadlineChange} {job} />
+                </li>
             {/each}
         </ul>
     {:else}
@@ -103,6 +106,14 @@
 </div>
 
 <style>
+    ul {
+        position: relative;
+    }
+
+    ul li {
+        list-style: none;
+    }
+
     :global(.date-time-field input) {
         border: 1px solid rgb(206, 212, 218);
         background-color: white;
