@@ -18,9 +18,9 @@ também pode reajustar os prazos já inseridos e excluir tarefas da lista.
 
 ### Apresentação
 
-O vídeo está em [...](.).
+O vídeo está em [./pa-greed.mp4](pa-greed.mp4).
 
-Você também pode assistir a [...](#)
+Você também pode assistir a [apresentação](#)
 pelo YouTube.
 
 ## Screenshots
