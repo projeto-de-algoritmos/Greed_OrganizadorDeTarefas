@@ -20,7 +20,7 @@ também pode reajustar os prazos já inseridos e excluir tarefas da lista.
 
 O vídeo está em [./pa-greed.mp4](pa-greed.mp4).
 
-Você também pode assistir a [apresentação](#)
+Você também pode assistir a [apresentação](https://youtu.be/lx9bVRPb1YA)
 pelo YouTube.
 
 ## Screenshots
