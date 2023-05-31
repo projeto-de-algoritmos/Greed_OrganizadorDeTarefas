@@ -18,8 +18,5 @@ export function intervalFromDates(start: Date, end: Date) {
     if (interval.days)
         if (interval.days > 0)
             return `${interval.days} dias`
-    if (interval.hours)
-        if (interval.hours > 0)
-            return `${interval.hours} horas`
-    return 'menos de uma hora'
+    return '0 dias'
 }

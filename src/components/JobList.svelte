@@ -1,6 +1,6 @@
 <script lang="ts">
     import JobItem from './JobItem.svelte';
-    import { minimizeLateness, type Job } from '../lib/minimizingLateness';
+    import { minimizeLateness, type Job } from '../lib/minimizeLateness';
     import { Input, Button, Grid, NumberInput } from '@svelteuidev/core';
     import { DateInput, localeFromDateFnsLocale } from 'date-picker-svelte';
     import { ptBR } from 'date-fns/locale';
@@ -32,6 +32,7 @@
             duration: durationInDays * daysToMilisecs,
             start: 0,
             end: 0,
+            delay: 0,
         };
 
         // TODO: animar reordenação

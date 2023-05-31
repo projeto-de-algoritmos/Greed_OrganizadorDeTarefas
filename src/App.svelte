@@ -1,7 +1,7 @@
 <script lang="ts">
   import JobList from './components/JobList.svelte';
   import { daysToMilisecs } from './lib/dateUtils';
-  import { minimizeLateness, type Job } from './lib/minimizingLateness';
+  import { minimizeLateness, type Job } from './lib/minimizeLateness';
 
   const globalStartTimestamp = new Date().getTime();
   let jobs: Job[] = [
@@ -12,6 +12,7 @@
       deadline: new Date('2023-07-06T23:59:59').getTime(),
       start: 0,
       end: 0,
+      delay: 0,
     },
     {
       // 2
@@ -20,6 +21,7 @@
       deadline: new Date('2023-07-08T23:59:59').getTime(),
       start: 0,
       end: 0,
+      delay: 0,
     },
     {
       // 3
@@ -28,6 +30,7 @@
       deadline: new Date('2023-07-09T23:59:59').getTime(),
       start: 0,
       end: 0,
+      delay: 0,
     },
     {
       // 4
@@ -36,6 +39,7 @@
       deadline: new Date('2023-07-09T23:59:59').getTime(),
       start: 0,
       end: 0,
+      delay: 0,
     },
     {
       // 5
@@ -44,6 +48,7 @@
       deadline: new Date('2023-07-14T23:59:59').getTime(),
       start: 0,
       end: 0,
+      delay: 0,
     },
     {
       // 6
@@ -52,6 +57,7 @@
       deadline: new Date('2023-07-15T23:59:59').getTime(),
       start: 0,
       end: 0,
+      delay: 0,
     },
   ];
 
