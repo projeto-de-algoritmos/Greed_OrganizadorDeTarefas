@@ -1,45 +1,61 @@
-**!! Atenção: Renomeie o seu repositório para (Tema)_(NomeDoProjeto). !!** 
+# Organizador de tarefas
 
-Temas:
- - Grafos1
- - Grafos2
- - PD
- - D&C
- - Greed
- - Final 
- 
- **!! *Não coloque os nomes dos alunos no título do repositório*. Exemplo de título correto: Grafos2_Labirinto-do-Minotauro !!**
- 
- (Apague essa seção)
+**Número da Lista**: 19
 
-# NomedoProjeto
-
-**Número da Lista**: X<br>
-**Conteúdo da Disciplina**: XXXXXXXXXX<br>
+**Conteúdo da Disciplina**: Greed
 
 ## Alunos
-|Matrícula | Aluno |
-| -- | -- |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+| Matrícula  | Aluno                                                       |
+| ---------- | ----------------------------------------------------------- |
+| 16/0127912 | [João Vitor Ferreira Alves](https://github.com/vitorAlves7) |
+| 16/0149410 | [Yudi Yamane de Azevedo](https://github.com/yudi-azvd)      |
+
 
 ## Sobre 
-Descreva os objetivos do seu projeto e como ele funciona. 
+Essa é uma aplicação para organizar as suas tarefas. Você fornece o prazo e 
+a quantidade de tempo para a tarefa e a ordenação acontece sozinha! Você
+também pode reajustar os prazos já inseridos e excluir tarefas da lista.
+
+### Apresentação
+
+O vídeo está em [...](.).
+
+Você também pode assistir a [...](#)
+pelo YouTube.
 
 ## Screenshots
-Adicione 3 ou mais screenshots do projeto em funcionamento.
+<img src="./docs/screenshot-1.png" width="400" alt="aplicação com algumas tarefas">
+
+<img src="./docs/screenshot-2.png" width="400" alt="aplicação com algumas tarefas">
+
+<img src="./docs/screenshot-3.png" width="400" alt="aplicação com nenhuma tarefa">
+
 
 ## Instalação 
-**Linguagem**: xxxxxx<br>
-**Framework**: (caso exista)<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
+**Linguagem**: TypeScript
 
-## Uso 
-Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.
+**Framework**: Svelte
 
-## Outros 
-Quaisquer outras informações sobre seu projeto podem ser descritas abaixo.
+Você precisa do [Node.js](https://nodejs.org/en) versão 16+ e de um gerenciador
+de pacotes como
+[npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm),
+[pnpm](https://pnpm.io/installation) ou yarn.
 
+Instale as dependências:
 
+```sh
+npm i
+# ou se você usa pnpm:
+pnpm i
+```
 
+Inicie o servidor da aplicação:
+
+```sh
+npm run dev
+# ou
+pnpm dev
+```
+
+Acesse a aplicação em http://localhost:5173/.
 
